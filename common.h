@@ -1,8 +1,13 @@
-/*
- * Projekt 3 - Prosta baza danych studentow
- * Autor: Robert Dudzinski
- * Plik: common.h
- */
+/// EN: 3rd project for Fundamentals of Programming lectures at Warsaw University of Technology
+///     Simple Student Database
+///
+/// PL: Trzeci projekt PRI (Podstawy Programowania) PW WEiTI 17Z
+///     Prosta baza danych studentow
+///
+///     Copyright (C) Robert Dudzinski 2017
+///     Warsaw, December 2017
+///
+///     File: Common.h
 
 #ifndef COMMON_H
 #define COMMON_H

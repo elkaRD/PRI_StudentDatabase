@@ -1,15 +1,20 @@
-/*
- * Projekt 3 - Prosta baza danych studentow
- * Autor: Robert Dudzinski
- * Plik: main.c
- */
+/// EN: 3rd project for Fundamentals of Programming lectures at Warsaw University of Technology
+///     Simple Student Database
+///
+/// PL: Trzeci projekt PRI (Podstawy Programowania) PW WEiTI 17Z
+///     Prosta baza danych studentow
+///
+///     Copyright (C) Robert Dudzinski 2017
+///     Warsaw, December 2017
+///
+///     File: main.c
 
 #include "common.h"                                                             //zawiera uzywane struktury
 #include "iodata.h"                                                             //zawiera funkcje do zapisu i odczytu danych z plikow
 
 int DisplayOptions (Student** studentList, int numberOfStudents, int mode)      //wyswietla czynnosci mozliwe do zrobienia z lista
 {                                                                               //mode to tryb listy (wg imienia lub wg wieku)
-    printf("\n 0 - wstecz, 1 - usun studenta\n");
+    printf("\n 0 - back, 1 - remove student\n");
     int menu;
 
     while (1)
@@ -23,7 +28,7 @@ int DisplayOptions (Student** studentList, int numberOfStudents, int mode)      
         if (menu == 0) break;                                                   //zakoncz petle opcji; wroc do petli listy, a nastepnie do petli glownej
         if (menu == 1)
         {
-            printf("\nPodaj numer studenta z listy do usuniecia: ");
+            printf("\nEnter record number from list to be removed: ");
             int number;
             if (scanf("%d", &number) != 1)
             {
@@ -44,13 +49,13 @@ int DisplayOptions (Student** studentList, int numberOfStudents, int mode)      
 int DisplayByName (Student* studentList)                                        //wyswietlanie listy wg imienia
 {
     DisplayHeader();
-    puts("      Lista studentow wg imienia:\n");
-    printf(" L.p. %-24s %-24s %-10s  %-6s\n\n", "Nazwisko", "Imie", "Narodzenie", "Indeks");
+    puts("      List of students by name:\n");
+    printf("  No. %-24s %-24s %-10s  %-6s\n\n", "Second Name", "First Name", "Birth", "Index");
 
     int i = 0;
     if (studentList->nextName == NULL)
     {
-        printf("\n    Brak studentow w bazie\n\n");
+        printf("\n    No students in the database\n\n");
     }
     else
     {
@@ -69,13 +74,13 @@ int DisplayByName (Student* studentList)                                        
 int DisplayByAge (Student* studentList)                                         //wyswietlanie listy wg wieku
 {
     DisplayHeader();
-    puts("      Lista studentow wg wieku:\n");
-    printf(" L.p. %-24s %-24s %-10s  %-6s\n\n", "Nazwisko", "Imie", "Narodzenie", "Indeks");
+    puts("      List of students by age:\n");
+    printf("  No. %-24s %-24s %-10s  %-6s\n\n", "Second Name", "First Name", "Birth", "Index");
 
     int i = 0;
     if (studentList->nextName == NULL)
     {
-        printf("\n    Brak studentow w bazie\n\n");
+        printf("\n    No students in the database\n\n");
     }
     else
     {
@@ -160,62 +165,62 @@ int CheckIndexNumber (Student* studentList, int n)                          //sp
 void AddStudent (Student** studentList)                                     //funkcja zbierajaca i sprawdzajaca informacje do utworzenia nowego studenta
 {
     DisplayHeader();
-    printf("      Dodawanie nowego studenta\n\n\n");
+    printf("      Adding a new student\n\n\n");
 
     Student student;
 
-    printf("Podaj imie: ");
+    printf("Enter first name: ");
     if (scanf("%s", student.firstName) != 1 || !CheckName(student.firstName))
     {
-        puts("\n  Niepoprawne imie");
+        puts("\n  Incorrect first name");
         sleep(3);                                                           //trzy sekundowy komunikat o niepowodzeniu
         return;
     }
-    printf("Podaj nazwisko: ");
+    printf("Enter second name: ");
     if (scanf("%s", student.secondName) != 1 || !CheckName(student.secondName))
     {
-        puts("\n  Niepoprawne nazwisko");
+        puts("\n  Incorrect second name");
         sleep(3);
         return;
     }
-    puts("Podaj date urodzenia");
+    puts("Enter date of birth");
     printf("Dzien: ");
     if (scanf("%d", &student.dateOfBirth.day) != 1)
     {
-        puts("\n  Nie udalo sie wczytac dnia");
+        puts("\n  Failed to read the day");
         sleep(3);
         return ;
     }
     printf("Miesiac: ");
     if (scanf("%d", &student.dateOfBirth.month) != 1)
     {
-        puts("\n  Nie udalo sie wczytac miesiaca");
+        puts("\n  Failed to read a month");
         sleep(3);
         return;
     }
     printf("Rok: ");
     if (scanf("%d", &student.dateOfBirth.year) != 1)
     {
-        puts("\n  Nie udalo sie wczytac roku");
+        puts("\n  Failed to read the year");
         sleep(3);
         return;
     }
     if (!CheckDate(student.dateOfBirth))
     {
-        puts("\n  Niepoprawna data urodzenia");
+        puts("\n  Incorrect date of birth");
         sleep(3);
         return;
     }
-    printf("Podaj numer indeksu: ");
+    printf("Enter index number: ");
     if (scanf("%d", &student.indexNumber) != 1 || student.indexNumber < 0)
     {
-        puts("\n  Nie udalo sie wczytac numeru indeksu");
+        puts("\n  Failed to read the index number");
         sleep(3);
         return;
     }
     if (!CheckIndexNumber(*studentList, student.indexNumber))
     {
-        puts("\n  Podany numer indeksu juz jest w uzyciu");
+        puts("\n  Entered index already exists in the database");
         sleep(4);
         return;
     }
@@ -224,7 +229,7 @@ void AddStudent (Student** studentList)                                     //fu
 
     SaveStudent(&student, DATA_FILES_LOCATION);                         //zapisz nowego studenta do pliku
 
-    puts("\n  Dodano");
+    puts("\n  Added");
     sleep(2);                                                           //krotki komunikat o pomyslnosci dodania nowego rekordu
 }
 
@@ -232,11 +237,11 @@ void DisplayMenu ()                                                     //po pro
 {
     DisplayHeader();
 
-    puts("      Co chcesz zrobic?:\n");
-    puts(" 1. Wyswietl liste alfabetycznie");
-    puts(" 2. Wyswietl liste wg wieku");
-    puts(" 3. Dodaj nowego studenta");
-    puts(" 0. Wyjscie");
+    puts("      What would you like to do?:\n");
+    puts(" 1. Display list by name");
+    puts(" 2. Display list by age");
+    puts(" 3. Add a new student");
+    puts(" 0. Exit");
 }
 
 void ListByName (Student** studentList)                                         //wyswietla ekran odpowiedzialny za liste wg imienia
@@ -265,8 +270,8 @@ int main ()
     if (LoadStudents(&studentList, DATA_FILES_LOCATION) < 0)
     {
         DisplayHeader();
-        puts("  Plik mapowanie.txt nie zawiera poprawnych sciezek do plikow");
-        puts("  lub nie zawiera sciezek do wszystkich 26 plikow");
+        puts("  File mapping.txt does not contain valid paths to files");
+        puts("  or does not contain paths to all 26 files");
     }
     else while (1)                                                                   //glowna petla programu
     {

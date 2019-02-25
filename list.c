@@ -1,8 +1,13 @@
-/*
- * Projekt 3 - Prosta baza danych studentow
- * Autor: Robert Dudzinski
- * Plik: list.c
- */
+/// EN: 3rd project for Fundamentals of Programming lectures at Warsaw University of Technology
+///     Simple Student Database
+///
+/// PL: Trzeci projekt PRI (Podstawy Programowania) PW WEiTI 17Z
+///     Prosta baza danych studentow
+///
+///     Copyright (C) Robert Dudzinski 2017
+///     Warsaw, December 2017
+///
+///     File: list.c
 
 #include "list.h"
 
@@ -104,9 +109,9 @@ void RemoveFromList (Student** studentList, int number, int mode)       //usuwa 
         if (i == number)                                                //w tym momencie wzkaznik curStudent zawiera w sobie adres elementu do usuniecia
         {
             DisplayHeader();
-            printf("    Czy na pewno chcesz usunac dany rekord:\n\n\n");    //potwierdzenie usuniecia konkretnego studenta z bazy
+            printf("    Are you sure you want to remove this record:\n\n\n");    //potwierdzenie usuniecia konkretnego studenta z bazy
             DisplayRecord(curStudent, 0);
-            printf("\n\n[1-TAK / 0-NIE]: ");
+            printf("\n\n[1-YES / 0-NO]: ");
 
             int menu;
             if (scanf("%d", &menu) != 1)
@@ -164,6 +169,6 @@ void RemoveFromList (Student** studentList, int number, int mode)       //usuwa 
         SaveStudents(*studentList, DATA_FILES_LOCATION, whichFile);     //zapisz zmiany: zapisuje tylko jeden plik, w ktorym byla zmiana (plik przechowujacy studentow o nazwiskach zaczynajaych sie ta sama litera)
     }
 
-    puts("\n  Usunieto");
+    puts("\n  Removed");
     sleep(2);                                                           //komunikat o powodzeniu usuwania
 }
